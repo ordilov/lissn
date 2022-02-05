@@ -1,7 +1,6 @@
 import YoutubePlayer from "./youtubePlayer";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStepBackward, faStepForward} from "@fortawesome/free-solid-svg-icons";
-import Button from "./button";
 import React from "react";
 import playlists from "../libs/playlists";
 
@@ -25,11 +24,13 @@ function Player() {
 
     return <div className="container-fluid">
         <div className="d-flex justify-content-around align-items-center">
-            <Button id={'back'} inner={<FontAwesomeIcon className="icon" icon={faStepBackward}/>}
-                    onClick={() => prevTrack()}/>
+            <button id={'back'} onClick={() => prevTrack()}>
+                <FontAwesomeIcon className="icon" icon={faStepBackward}/>
+            </button>
             <YoutubePlayer src={url}/>
-            <Button id={'forward'} inner={<FontAwesomeIcon className="icon" icon={faStepForward}/>}
-                    onClick={() => nextTrack()}/>
+            <button id={'forward'} onClick={() => nextTrack()}>
+                <FontAwesomeIcon className="icon" icon={faStepForward}/>
+            </button>
         </div>
     </div>
 }
