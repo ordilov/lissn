@@ -1,93 +1,89 @@
 import React, {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCog, faHeadphones, faSearch, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faCog, faHeadphones, faMusic, faSearch, faSignOutAlt, faUser} from "@fortawesome/free-solid-svg-icons";
 import {faGoogle} from "@fortawesome/free-brands-svg-icons";
-import Login from "./login";
-import {login} from "../api/server";
-import {YOUTUBE_AUTH, YOUTUBE_AUTH_READ, YOUTUBE_AUTH_UPLOAD} from "../libs/constants";
-import Script from "next/script";
-import GoogleAuth = gapi.auth2.GoogleAuth;
-import {NavbarBrand} from "react-bootstrap";
+import {toast} from "react-toastify";
+import {ACCESS_TOKEN, GOOGLE_AUTH_URL} from "../libs/constants";
+import Link from "next/link";
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
-function NavLayout() {
+function NavLayout(props: any) {
+    const [currentUser, setCurrentUser] = useState(props.currentUser);
 
-  const [googleAuth, setGoogleAuth] = useState<GoogleAuth>();
-  const [name, setName] = useState("");
-  const [signIn, setSignIn] = useState(false);
+    useEffect(() => {
+        setCurrentUser(props.currentUser);
+    }, [props.currentUser])
 
-
-  useEffect(() => {
-    setName("");
-    if (signIn) {
-      login(googleAuth);
-      setName(googleAuth?.currentUser.get().getBasicProfile().getName() || "");
+    function logout() {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('expiresAt');
+        localStorage.removeItem('user');
+        setCurrentUser(null);
+        toast.success("Logged out successfully")
     }
-  }, [signIn])
 
-  async function updateSignInStatus(isSignedIn: boolean) {
-    setSignIn(isSignedIn);
-  }
+    return <>
+        <nav className="navbar navbar-expand-sm navbar-inverse bg-dark">
+            <a className="navbar-brand" href="./">
+                <div><FontAwesomeIcon icon={faHeadphones as IconProp} size={"1x"}/> 리슨</div>
+            </a>
+            <a className="navbar-brand" href="#"><FontAwesomeIcon icon={faSearch as IconProp} size={"1x"}/> 검색</a>
 
-  function handleClientLoad() {
-    gapi.load('client:auth2', initClient);
-  }
+            <ul className="navbar-nav ms-auto">
+                {currentUser ?
+                    <>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#" onClick={logout}>
+                                <FontAwesomeIcon icon={faCog as IconProp}/> 설정
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#" onClick={logout}>
+                                <FontAwesomeIcon icon={faUser as IconProp}/> {currentUser?.name}님
+                                {/*<img src={currentUser?.profileImageUrl} alt={""}/>*/}
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="./" onClick={logout}>
+                                <FontAwesomeIcon icon={faSignOutAlt as IconProp} size={"1x"}/> 로그아웃
+                            </a>
+                        </li>
 
-  async function initClient() {
-    const scopes = [YOUTUBE_AUTH, YOUTUBE_AUTH_READ, YOUTUBE_AUTH_UPLOAD].join(' ');
+                        <li className="nav-item">
+                            <Link href="/playlists">
+                                <a className="nav-link" href="#" onClick={getMemberPlaylists}>
+                                    <FontAwesomeIcon icon={faMusic as IconProp} size={"1x"}/> 플레이리스트
+                                </a>
+                            </Link>
+                        </li>
 
-    await gapi.client.init({
-      apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      scope: scopes
-    });
-    const auth = gapi.auth2.getAuthInstance();
-    auth.isSignedIn.listen(updateSignInStatus);
-    setGoogleAuth(auth);
-    setSignIn(auth.isSignedIn.get());
-  }
+                    </>
+                    :
+                    <>
+                        <li className="nav-item">
+                            <a className="nav-link" href={GOOGLE_AUTH_URL}>
+                                <FontAwesomeIcon icon={faGoogle as IconProp} size={"1x"}/> 로그인
+                            </a>
+                        </li>
+                    </>
+                }
+            </ul>
+        </nav>
+    </>
+}
 
-
-  async function getMemberPlaylists() {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/members/{memberId}/playlists`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+async function getMemberPlaylists() {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/playlists`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        },
     })
     const data = await response.json();
     console.log(data);
-  }
-
-  return <>
-    <Script async defer src="https://apis.google.com/js/api.js"
-            onLoad={handleClientLoad}>
-    </Script>
-
-    <nav className="navbar navbar-expand-sm navbar-inverse bg-dark">
-
-      <a className="navbar-brand" href="#"> <div> <FontAwesomeIcon icon={faHeadphones} size={"1x"}/> 리슨 </div></a>
-      <a className="navbar-brand" href="#"><FontAwesomeIcon icon={faSearch} size={"1x"}/> 검색</a>
-
-      <ul className="navbar-nav ms-auto">
-        <li className="nav-item">
-          <FontAwesomeIcon icon={faGoogle} size={"1x"}/>
-          <Login googleAuth={googleAuth} signIn={signIn}/>
-        </li>
-
-        <li className="nav-item">
-          <button id={"google-login"} onClick={console.log}>
-            <FontAwesomeIcon icon={faUser}/> {name}님
-          </button>
-        </li>
-        <li className="nav-item">
-          <button id={"google-login"} onClick={console.log}>
-            <FontAwesomeIcon icon={faCog}/> 설정
-          </button>
-        </li>
-      </ul>
-    </nav>
-
-  </>
 }
 
 export default NavLayout;

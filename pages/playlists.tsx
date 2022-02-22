@@ -1,12 +1,11 @@
-import type {NextPage} from 'next'
 import HeaderLayout from "../components/headerLayout";
 import FooterLayout from "../components/footerLayout";
-import Player from "../components/player";
 import React, {useEffect, useState} from "react";
 import NavLayout from "../components/navLayout";
 import {ACCESS_TOKEN} from "../libs/constants";
+import PlaylistLayout from "../components/playlistLayout";
 
-const Home: NextPage = () => {
+function MyPlaylists() {
     const [currentUser, setCurrentUser] = useState(null)
 
     useEffect(() => {
@@ -17,29 +16,16 @@ const Home: NextPage = () => {
         })
     }, [])
 
-    if (currentUser){
-        return (
-            <>
-                <HeaderLayout/>
-                <NavLayout currentUser={currentUser}/>
-                <main>
-                    <Player/>
-                </main>
-                <FooterLayout/>
-            </>
-        )
-    }
-
-    return (
-        <>
-            <HeaderLayout/>
-            <NavLayout currentUser={currentUser}/>
-            <main>
-                <Player/>
-            </main>
-            <FooterLayout/>
-        </>
-    )
+  return (
+      <>
+        <HeaderLayout/>
+        <NavLayout currentUser={currentUser}/>
+        <main>
+            <PlaylistLayout/>
+        </main>
+        <FooterLayout/>
+      </>
+  )
 }
 
 export async function getCurrentUser(accessToken: string) {
@@ -55,4 +41,4 @@ export async function getCurrentUser(accessToken: string) {
     return user.data;
 }
 
-export default Home
+export default MyPlaylists
