@@ -46,3 +46,11 @@ main{
 
   margin: 10px;
 }
+
+.form-control {
+  width: 500px;
+}
+
+.playlistItem-title{
+  width: 310px;
+}
