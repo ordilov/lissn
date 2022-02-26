@@ -1,6 +1,5 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faKeyboard, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
-import PlaylistItem from "./PlaylistItem";
 import {faYoutube} from "@fortawesome/free-brands-svg-icons";
 import React, {useEffect, useState} from "react";
 import {
@@ -10,12 +9,13 @@ import {
     likePlaylistApi,
     updatePlaylistTitleApi
 } from "../api/server";
-import {playlistItem, playlistType} from "../libs/types";
+import {PlaylistItem, PlaylistType} from "../libs/types";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import PlaylistItemLayout from "./playlistItemLayout";
 
-function Playlist({playlistData, indexData}: { playlistData: playlistType, indexData: number }) {
+function Playlist({playlistData, indexData}: { playlistData: PlaylistType, indexData: number }) {
     const [editable, setEditable] = useState([] as boolean[]);
-    const [playlist, setPlaylist] = useState<playlistType | null>(playlistData);
+    const [playlist, setPlaylist] = useState<PlaylistType | null>(playlistData);
     const [index, setIndex] = useState(indexData);
     const [youtubeLink, setYoutubeLink] = useState("");
     const [like, setLike] = useState(playlistData.isLiked);
@@ -87,8 +87,8 @@ function Playlist({playlistData, indexData}: { playlistData: playlistType, index
 
             <ul>
                 {playlist.items.map(
-                    (item: playlistItem) =>
-                        <PlaylistItem list={playlist} item={item}/>
+                    (item: PlaylistItem) =>
+                        <PlaylistItemLayout list={playlist} item={item}/>
                 )}
             </ul>
             <a className="nav-link d-inline" href="#" data-bs-toggle="modal"

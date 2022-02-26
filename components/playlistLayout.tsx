@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {createPlaylistApi, getPlaylists} from "../api/server";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
-import Playlists from "./Playlists";
+import Playlists from "./playlists";
 
 function PlaylistLayout() {
     const [playlists, setPlaylists] = useState([]);

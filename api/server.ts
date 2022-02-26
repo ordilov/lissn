@@ -31,6 +31,13 @@ const memberRequest = (options: any) => {
     return request(options);
 };
 
+export async function getCurrentUser() {
+    return memberRequest({
+        url: `/members/me`,
+        method: 'GET',
+    })
+}
+
 export async function getPlaylists() {
     return memberRequest({
         url: `/playlists`,
@@ -93,7 +100,7 @@ export async function deletePlaylistItemApi(playlistId: number, playlistItemId: 
     });
 }
 
-export async function likeTrackApi(trackId: number){
+export async function likeTrackApi(trackId: number) {
     return memberRequest({
         url: `/likes/track`,
         method: 'POST',
@@ -103,7 +110,7 @@ export async function likeTrackApi(trackId: number){
     });
 }
 
-export async function likePlaylistApi(playlistId: number){
+export async function likePlaylistApi(playlistId: number) {
     return memberRequest({
         url: `/likes/playlist`,
         method: 'POST',
@@ -113,3 +120,13 @@ export async function likePlaylistApi(playlistId: number){
     });
 }
 
+export async function changePlaylistApi(playlistId: number, playlistItemId: number) {
+    return memberRequest({
+        url: `/members/me/playing`,
+        method: 'POST',
+        body: JSON.stringify({
+            playlistId,
+            playlistItemId
+        })
+    });
+}

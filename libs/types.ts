@@ -1,10 +1,10 @@
-export class playlistType {
+export class PlaylistType {
     id: number;
     title: string
     isLiked: boolean;
-    items: playlistItem[];
+    items: PlaylistItem[];
 
-    constructor(id: number, title: string, isLiked: boolean, playlistItems: playlistItem[]) {
+    constructor(id: number, title: string, isLiked: boolean, playlistItems: PlaylistItem[]) {
         this.id = id;
         this.title = title;
         this.isLiked = isLiked;
@@ -12,7 +12,7 @@ export class playlistType {
     }
 }
 
-export class playlistItem {
+export class PlaylistItem {
     id: number;
     title: string;
     trackId: number;
@@ -24,6 +24,28 @@ export class playlistItem {
         this.title = title;
         this.isLiked = isLiked;
         this.trackId = trackId;
+        this.resourceId = resourceId;
+    }
+}
+
+export class PlayingInfo {
+    nowPlaying: number;
+    trackInfos: TrackInfo[];
+
+    constructor(nowPlaying: number, trackInfos: TrackInfo[]) {
+        this.nowPlaying = nowPlaying;
+        this.trackInfos = trackInfos;
+    }
+}
+
+export class TrackInfo{
+    id: number;
+    title: string;
+    resourceId: string;
+
+    constructor(id: number, title: string, resourceId: string) {
+        this.id = id;
+        this.title = title;
         this.resourceId = resourceId;
     }
 }

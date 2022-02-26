@@ -4,7 +4,7 @@ import {faCircleXmark} from "@fortawesome/free-regular-svg-icons";
 import {deletePlaylistItemApi, getPlaylists, likeTrackApi} from "../api/server";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
-function PlaylistItem({list, item}: { list: any, item: any }) {
+function PlaylistItemLayout({list, item}: { list: any, item: any }) {
     const [playlist, setPlaylist] = useState(list);
     const [playlistItem, setPlaylistItem] = useState(item);
     const [liked, setLiked] = useState(item.isLiked);
@@ -50,4 +50,4 @@ function PlaylistItem({list, item}: { list: any, item: any }) {
     )
 }
 
-export default PlaylistItem;
+export default PlaylistItemLayout;

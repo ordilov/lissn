@@ -1,56 +1,85 @@
 html,
 body {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    width: 100%;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.title{
-  background: #000000;
-  color: #333333;;
-  text-align: center;
+.title {
+    background: #000000;
+    color: #333333;;
+    text-align: center;
 }
 
-.icon{
-  width: 30px;
-  height: 30px;
+.icon {
+    width: 30px;
+    height: 30px;
 }
 
-#__next{
-  width: 100%;
-  height: 100%;
+#__next {
+    width: 100%;
+    height: 100%;
 }
 
-main{
-  width: 100%;
-  height: 100%;
-  background: rgb(34,193,195);
-  background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+main {
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    background: rgb(34, 193, 195);
+    background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
 }
 
 .container-fluid {
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 
-  margin: 10px;
+    margin: 10px;
 }
 
 .form-control {
-  width: 500px;
+    width: 500px;
 }
 
-.playlistItem-title{
-  width: 310px;
+.playlistItem-title {
+    width: 310px;
+}
+
+.playing-title {
+    color: #ffffff;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    line-height: 40px;
+    text-align: center;
+    display: inline;
+    text-transform: uppercase;
+}
+
+.play-bar{
+    width: 100%;
+    height: 100px;
+    position: fixed;
+    padding: 10px;
+    bottom: 0;
+    left: 0;
+    background: #2c3034;
+}
+
+.space{
+    height: 100px;
+}
+
+footer{
+    background: #3d413d;
 }
