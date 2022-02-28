@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCog, faHeadphones, faMusic, faSearch, faSignOutAlt, faUser} from "@fortawesome/free-solid-svg-icons";
 import {faGoogle} from "@fortawesome/free-brands-svg-icons";
@@ -8,19 +8,23 @@ import Link from "next/link";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {Dropdown} from "react-bootstrap";
 
-function NavLayout(props: any) {
-    const [currentUser, setCurrentUser] = useState(props.currentUser);
+function NavLayout({
+                       loginState: [login, setLogin],
+                       memberState: [member, setMember],
+                   }: {
+    memberState: [any, any], loginState: [boolean, Dispatch<SetStateAction<boolean>>]
+}) {
 
     useEffect(() => {
-        setCurrentUser(props.currentUser);
-    }, [props.currentUser])
+    }, [member])
 
     function logout() {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('expiresAt');
         localStorage.removeItem('user');
-        setCurrentUser(null);
+        setMember(null);
+        setLogin(false);
         toast.success("Logged out successfully")
     }
 
@@ -32,21 +36,21 @@ function NavLayout(props: any) {
             <a className="navbar-brand" href="#"><FontAwesomeIcon icon={faSearch as IconProp} size={"1x"}/> 검색</a>
 
             <ul className="navbar-nav ms-auto">
-                {currentUser ?
+                {member ?
                     <>
                         <li className="nav-item">
-                                <Dropdown>
-                                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                        <FontAwesomeIcon icon={faCog as IconProp}/> 설정
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                            <Dropdown>
+                                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                    <FontAwesomeIcon icon={faCog as IconProp}/> 설정
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="#" onClick={logout}>
-                                <FontAwesomeIcon icon={faUser as IconProp}/> {currentUser?.name}님
+                                <FontAwesomeIcon icon={faUser as IconProp}/> {member?.name}님
                                 {/*<img src={currentUser?.profileImageUrl} alt={""}/>*/}
                             </a>
                         </li>

@@ -6,22 +6,25 @@ import {ACCESS_TOKEN} from "../libs/constants";
 import PlaylistLayout from "../components/playlistLayout";
 import {getCurrentUser} from "../api/server";
 import Space from "../components/space";
+import {Member} from "../libs/types";
 
 function MyPlaylists() {
-    const [currentUser, setCurrentUser] = useState(null)
+    const [member, setMember] = useState<Member>()
+    const [login, setLogin] = useState<boolean>(false)
 
     useEffect(() => {
         let token = localStorage.getItem(ACCESS_TOKEN);
         if (!token) return
-        getCurrentUser().then(user => {
-            setCurrentUser(user);
+        getCurrentUser().then(member => {
+            setMember(member);
+            setLogin(true);
         })
     }, [])
 
     return (
         <>
             <HeaderLayout/>
-            <NavLayout currentUser={currentUser}/>
+            <NavLayout loginState={[login, setLogin]} memberState={[member, setMember]}/>
             <main>
                 <PlaylistLayout/>
             </main>

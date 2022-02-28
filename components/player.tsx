@@ -8,7 +8,7 @@ import YouTube, {Options} from "react-youtube";
 import {YouTubePlayer} from "youtube-player/dist/types";
 import PlayBar from "./player/play-bar";
 
-function Player() {
+function Player({login}: { login: boolean }) {
     const [index, setIndex] = useState(0);
     const [state, setState] = useState(-1);
     const [target, setTarget] = useState<YouTubePlayer>();
@@ -61,14 +61,14 @@ function Player() {
             <YouTube opts={opts} onReady={onReady} onStateChange={onStateChange}/>
         </div>
 
-        {playlist?.isLiked ?
+        {login && (playlist?.isLiked ?
             <button className="btn btn-primary" onClick={() => likePlaylist(playlist?.id)}>
                 <FontAwesomeIcon icon={"fa-solid fa-heart" as IconProp}/>
             </button> :
             <button className="btn btn-primary"
                     onClick={() => likePlaylist(playlist!!.id)}>
                 <FontAwesomeIcon icon={"fa-regular fa-heart" as IconProp}/>
-            </button>
+            </button>)
         }
 
         <div className={"d-grid gap-2 col-5 mx-auto"}>

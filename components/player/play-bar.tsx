@@ -8,6 +8,7 @@ import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {Dropdown} from "react-bootstrap";
 import {deletePlayingApi, getPlayingApi, savePlayingApi} from "../../api/server";
 import {faCircleXmark} from "@fortawesome/free-regular-svg-icons";
+import {ACCESS_TOKEN} from "../../libs/constants";
 
 function PlayBar(
     {
@@ -25,7 +26,6 @@ function PlayBar(
 
     useEffect(() => {
         if (playlistItems === null || playlistItems.length === 0) return;
-        console.log(playlistItems, index);
         setTitle(playlistItems[index].title);
     }, [playlistItems, index]);
 
@@ -94,7 +94,6 @@ async function deletePlayingItem({id, index, setIndex, setPlaylistItems}: {
 }) {
     if (index != 0) {
         setIndex(index - 1);
-        console.log(index);
     }
     await deletePlayingApi(id);
     getPlayingApi().then(res => {
@@ -106,7 +105,6 @@ async function deletePlayingItem({id, index, setIndex, setPlaylistItems}: {
 function playTrack(index: number, setIndex: Dispatch<SetStateAction<number>>, target: YouTubePlayer,
                    setPlaying: Dispatch<SetStateAction<number>>) {
     setIndex(index);
-    console.log(index);
     setPlaying(1);
     playVideo(target, setPlaying, index);
 }
@@ -129,8 +127,9 @@ async function prevTrack({target, index, length, setIndex, playlistItems}: {
     setIndex: Dispatch<SetStateAction<number>>
 }) {
     let prev = prevIndex(index, length);
-    console.log(playlistItems[prev].id);
-    await savePlayingApi(playlistItems[prev].id);
+
+    if (localStorage.getItem(ACCESS_TOKEN))
+        await savePlayingApi(playlistItems[prev].id);
     setIndex(prev);
     target?.playVideoAt(prev);
 }
@@ -143,7 +142,8 @@ async function nextTrack({target, index, length, setIndex, playlistItems}: {
     setIndex: Dispatch<SetStateAction<number>>
 }) {
     let next = nextIndex(index, length);
-    await savePlayingApi(playlistItems[next].id);
+    if (localStorage.getItem(ACCESS_TOKEN))
+        await savePlayingApi(playlistItems[next].id);
     setIndex(next);
     target?.playVideoAt(next);
 }
