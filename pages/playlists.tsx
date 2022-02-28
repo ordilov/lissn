@@ -5,6 +5,7 @@ import NavLayout from "../components/navLayout";
 import {ACCESS_TOKEN} from "../libs/constants";
 import PlaylistLayout from "../components/playlistLayout";
 import {getCurrentUser} from "../api/server";
+import Space from "../components/space";
 
 function MyPlaylists() {
     const [currentUser, setCurrentUser] = useState(null)
@@ -17,16 +18,17 @@ function MyPlaylists() {
         })
     }, [])
 
-  return (
-      <>
-        <HeaderLayout/>
-        <NavLayout currentUser={currentUser}/>
-        <main>
-            <PlaylistLayout/>
-        </main>
-        <FooterLayout/>
-      </>
-  )
+    return (
+        <>
+            <HeaderLayout/>
+            <NavLayout currentUser={currentUser}/>
+            <main>
+                <PlaylistLayout/>
+            </main>
+            <FooterLayout/>
+            <Space/>
+        </>
+    )
 }
 
 export default MyPlaylists

@@ -120,13 +120,34 @@ export async function likePlaylistApi(playlistId: number) {
     });
 }
 
-export async function changePlaylistApi(playlistId: number, playlistItemId: number) {
+export async function changePlayingApi(playlistId: number, playlistItemId: number) {
     return memberRequest({
-        url: `/members/me/playing`,
+        url: `/playing`,
         method: 'POST',
         body: JSON.stringify({
             playlistId,
             playlistItemId
         })
+    });
+}
+
+export async function getPlayingApi() {
+    return memberRequest({
+        url: `/playing`,
+        method: 'GET'
+    });
+}
+
+export async function deletePlayingApi(playingId: number) {
+    return memberRequest({
+        url: `/playing/${playingId}`,
+        method: 'DELETE'
+    });
+}
+
+export async function savePlayingApi(playingId: number) {
+    return memberRequest({
+        url: `/playing/${playingId}`,
+        method: 'POST',
     });
 }

@@ -6,6 +6,7 @@ import {toast} from "react-toastify";
 import {ACCESS_TOKEN, GOOGLE_AUTH_URL} from "../libs/constants";
 import Link from "next/link";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import {Dropdown} from "react-bootstrap";
 
 function NavLayout(props: any) {
     const [currentUser, setCurrentUser] = useState(props.currentUser);
@@ -25,7 +26,7 @@ function NavLayout(props: any) {
 
     return <>
         <nav className="navbar navbar-expand-sm navbar-inverse bg-dark">
-            <a className="navbar-brand" href="./">
+            <a className="menu-button navbar-brand" href="./">
                 <div><FontAwesomeIcon icon={faHeadphones as IconProp} size={"1x"}/> 리슨</div>
             </a>
             <a className="navbar-brand" href="#"><FontAwesomeIcon icon={faSearch as IconProp} size={"1x"}/> 검색</a>
@@ -34,9 +35,14 @@ function NavLayout(props: any) {
                 {currentUser ?
                     <>
                         <li className="nav-item">
-                            <a className="nav-link" href="#" onClick={logout}>
-                                <FontAwesomeIcon icon={faCog as IconProp}/> 설정
-                            </a>
+                                <Dropdown>
+                                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                        <FontAwesomeIcon icon={faCog as IconProp}/> 설정
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="#" onClick={logout}>

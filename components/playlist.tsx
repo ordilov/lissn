@@ -1,10 +1,10 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faKeyboard, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import {faKeyboard, faPlay, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import {faYoutube} from "@fortawesome/free-brands-svg-icons";
-import React, {useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {
     addYoutubePlaylistApi,
-    addYoutubeVideoApi,
+    addYoutubeVideoApi, changePlayingApi,
     deletePlaylistApi,
     likePlaylistApi,
     updatePlaylistTitleApi
@@ -24,10 +24,6 @@ function Playlist({playlistData, indexData}: { playlistData: PlaylistType, index
         setPlaylist(playlistData);
     }, [playlistData]);
 
-    async function deletePlaylist(playlistId: number) {
-        await deletePlaylistApi(playlistId);
-        setPlaylist(null);
-    }
 
     async function updatePlaylistTitle(playlistId: number, title: string) {
         await updatePlaylistTitleApi(playlistId, title);
@@ -52,9 +48,7 @@ function Playlist({playlistData, indexData}: { playlistData: PlaylistType, index
         setLike(result.isLiked);
     }
 
-    if (playlist == null) {
-        return null;
-    }
+    if (playlist === null) return null;
 
     return (
         <div key={`playlist:${index}`}>
@@ -82,13 +76,18 @@ function Playlist({playlistData, indexData}: { playlistData: PlaylistType, index
                             <FontAwesomeIcon icon={"fa-regular fa-heart" as IconProp}/>
                         } 추천
                     </button>
+                    <button className="btn btn-outline-secondary"
+                            onClick={() => changePlayingApi(playlist.id, 0)}>
+                        <FontAwesomeIcon icon={faPlay as IconProp} size={"1x"}/>
+                    </button>
                 </div>
             </h2>
 
             <ul>
                 {playlist.items.map(
-                    (item: PlaylistItem) =>
-                        <PlaylistItemLayout list={playlist} item={item}/>
+                    (item: PlaylistItem, itemIndex: number) =>
+                        <PlaylistItemLayout key={`playlist:${index}:playlistItem:${itemIndex}`} list={playlist}
+                                            item={item}/>
                 )}
             </ul>
             <a className="nav-link d-inline" href="#" data-bs-toggle="modal"
@@ -125,11 +124,16 @@ function Playlist({playlistData, indexData}: { playlistData: PlaylistType, index
                onClick={() => addYoutubePlaylist(playlist.id, "PL15B1E77BB5708555")}>
                 <FontAwesomeIcon icon={faYoutube as IconProp} size={"1x"}/> 유튜브 ply
             </a>
-            <a className="nav-link d-inline" href="#" onClick={() => deletePlaylist(playlist.id)}>
+            <a className="nav-link d-inline" href="#" onClick={() => deletePlaylist(playlist.id, setPlaylist)}>
                 <FontAwesomeIcon icon={faTrashAlt as IconProp} size={"1x"}/> 삭제
             </a>
         </div>
     )
+}
+
+async function deletePlaylist(playlistId: number, setPlaylist: Dispatch<SetStateAction<PlaylistType | null>>) {
+    await deletePlaylistApi(playlistId);
+    setPlaylist(null);
 }
 
 export default Playlist;

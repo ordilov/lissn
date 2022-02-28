@@ -1,20 +1,35 @@
 import React, {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
-import {createPlaylistApi, getPlaylists} from "../api/server";
+import {createPlaylistApi, getPlayingApi, getPlaylists} from "../api/server";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import Playlists from "./playlists";
+import PlayBar from "./player/play-bar";
+import YouTube, {Options} from "react-youtube";
+import {YouTubePlayer} from "youtube-player/dist/types";
+import {PlayingType, PlaylistItem} from "../libs/types";
 
 function PlaylistLayout() {
     const [playlists, setPlaylists] = useState([]);
     const [editable, setEditable] = useState([] as boolean[]);
+    const [target, setTarget] = useState<YouTubePlayer>();
+    const [index, setIndex] = useState(0);
+    const [state, setState] = useState(-1);
     const [playlistTitle, setPlaylistTitle] = useState("");
+    const [playlistItems, setPlaylistItems] = useState<PlaylistItem[]>([]);
+
     useEffect(() => {
         getPlaylists().then(data => {
             setEditable(data.map(() => false));
             setPlaylists(data)
             return data;
         })
+
+        getPlayingApi().then((data: PlayingType) => {
+            setPlaylistItems(data.items);
+            const index = data.items.findIndex(item => item.id === data.nowPlaying);
+            setIndex(index);
+        });
     }, []);
 
     async function createPlaylist(title: string) {
@@ -29,6 +44,25 @@ function PlaylistLayout() {
         return <a className="nav-link" href="#" onClick={() => createPlaylist(playlistTitle)}>
             <FontAwesomeIcon icon={faPlus as IconProp} size={"1x"}/> 플레이리스트 생성
         </a>
+    }
+
+    const opts: Options = {
+        height: "300",
+        width: "300",
+        playerVars: {
+            autoplay: 0,
+        }
+    };
+
+    function onReady(event: { target: YouTubePlayer; data: number }) {
+        setTarget(event.target);
+        if (playlistItems == null) return;
+        let videoId = playlistItems.map(item => item.resourceId);
+        event.target.cuePlaylist(videoId);
+    }
+
+    function onStateChange(event: { target: YouTubePlayer; data: number }) {
+        setState(event.data);
     }
 
     return <>
@@ -59,7 +93,16 @@ function PlaylistLayout() {
             </div>
         </div>
 
-        <Playlists playlists={playlists}/>
+        <Playlists playlistDatas={playlists}/>
+
+        <div className={"d-flex justify-content-center"}>
+            <YouTube opts={opts} onReady={onReady} onStateChange={onStateChange}/>
+        </div>
+
+        {target && <PlayBar target={target}
+                            indexState={[index, setIndex]}
+                            playingState={[state, setState]}
+                            playlistItemsState={[playlistItems, setPlaylistItems]}/>}
     </>
 }
 

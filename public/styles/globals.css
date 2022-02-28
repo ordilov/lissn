@@ -59,11 +59,9 @@ main {
 .playing-title {
     color: #ffffff;
     font-family: 'Raleway', sans-serif;
-    font-weight: 800;
-    line-height: 40px;
-    text-align: center;
+    font-size: 10pt;
+    text-align: center;;
     display: inline;
-    text-transform: uppercase;
 }
 
 .play-bar{
@@ -80,6 +78,25 @@ main {
     height: 100px;
 }
 
+.play-button{
+    background: transparent;
+    color: #ffffff;
+    margin: 5px;
+}
+
+.move-button{
+    width: 60px;
+}
+
 footer{
     background: #3d413d;
+}
+
+.menu-button{
+    padding: 0 0 10px 0;
+    margin: 0 10px;
+}
+
+.dropdown-item{
+    z-index: 1;
 }

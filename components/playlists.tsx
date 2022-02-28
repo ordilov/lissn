@@ -1,22 +1,18 @@
 import React, {useEffect, useState} from "react";
-import {getPlaylists} from "../api/server";
 import {PlaylistType} from "../libs/types";
 import Playlist from "./playlist";
 
-function Playlists(props: any) {
-    const [playlists, setPlaylists] = useState(props.playlists);
+function Playlists({playlistDatas}: { playlistDatas: PlaylistType[] }) {
+    const [playlists, setPlaylists] = useState(playlistDatas);
 
     useEffect(() => {
-        getPlaylists().then(data => {
-            setPlaylists(data)
-            return data;
-        })
-    }, [props]);
+        setPlaylists(playlistDatas);
+    }, [playlistDatas]);
 
     return <> {
         playlists.map(
             (playlistData: PlaylistType, indexData: number) =>
-                <Playlist playlistData={playlistData} indexData={indexData}/>)
+                <Playlist key={`playlist:${indexData}`} playlistData={playlistData} indexData={indexData}/>)
     } </>
 }
 

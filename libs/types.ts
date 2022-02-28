@@ -28,24 +28,12 @@ export class PlaylistItem {
     }
 }
 
-export class PlayingInfo {
+export class PlayingType {
     nowPlaying: number;
-    trackInfos: TrackInfo[];
+    items: PlaylistItem[];
 
-    constructor(nowPlaying: number, trackInfos: TrackInfo[]) {
+    constructor(nowPlaying: number, items: PlaylistItem[]) {
         this.nowPlaying = nowPlaying;
-        this.trackInfos = trackInfos;
-    }
-}
-
-export class TrackInfo{
-    id: number;
-    title: string;
-    resourceId: string;
-
-    constructor(id: number, title: string, resourceId: string) {
-        this.id = id;
-        this.title = title;
-        this.resourceId = resourceId;
+        this.items = items;
     }
 }

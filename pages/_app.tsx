@@ -1,6 +1,6 @@
 import '../public/styles/globals.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {config, library} from '@fortawesome/fontawesome-svg-core'
+import {config, IconPack, library} from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import type {AppProps} from 'next/app'
 import "react-toastify/dist/ReactToastify.css";
@@ -15,11 +15,9 @@ function MyApp({Component, pageProps}: AppProps) {
     useEffect(() => {
         // @ts-ignore
         import("bootstrap/dist/js/bootstrap");
-        // @ts-ignore
-        library.add(fas)
-        // @ts-ignore
-        library.add(fab)
-        library.add(far)
+        library.add(far);
+        library.add(fas as IconPack);
+        library.add(fab as IconPack);
     }, []);
     return <Component {...pageProps} />
 }
