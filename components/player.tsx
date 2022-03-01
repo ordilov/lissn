@@ -38,8 +38,8 @@ function Player({login}: { login: boolean }) {
     if (playlist == null) return <div>Loading...</div>
 
     const opts: Options = {
-        height: "553",
-        width: "800",
+        width: "1080",
+        height: "640",
         playerVars: {
             autoplay: 0,
         }
@@ -61,27 +61,24 @@ function Player({login}: { login: boolean }) {
             <YouTube opts={opts} onReady={onReady} onStateChange={onStateChange}/>
         </div>
 
+        <div className={"d-grid justify-content-center"}>
         {login && (playlist?.isLiked ?
-            <button className="btn btn-primary" onClick={() => likePlaylist(playlist?.id)}>
+            <button className="btn " onClick={() => likePlaylist(playlist?.id)}>
                 <FontAwesomeIcon icon={"fa-solid fa-heart" as IconProp}/>
             </button> :
-            <button className="btn btn-primary"
-                    onClick={() => likePlaylist(playlist!!.id)}>
+            <button className="btn " onClick={() => likePlaylist(playlist!!.id)}>
                 <FontAwesomeIcon icon={"fa-regular fa-heart" as IconProp}/>
             </button>)
         }
+        </div>
 
-        <div className={"d-grid gap-2 col-5 mx-auto"}>
+        <div className={"d-grid gap-2 justify-content-center"}>
             {
                 playlist.items.map((item, innerIndex) => {
-                    if (innerIndex === index) {
-                        return <strong key={`item:${innerIndex}`} className={"fs-4"}>
-                            {item.title.length > 30 ? item.title.substring(0, 30) + "..." : item.title}
-                        </strong>
-                    }
-                    return <button key={`item:${innerIndex}`} className={"text-start"}
-                                   onClick={() => playClicked(innerIndex)}>
-                        {item.title.length > 50 ? item.title.substring(0, 50) + "..." : item.title}
+                    return <button key={`item:${innerIndex}`} className={"playlist-item text-start " + (innerIndex === index ? "fs-4" : "")}
+                                   onClick={innerIndex === index ? undefined : () => playClicked(innerIndex)}>
+                        <img className={"thumbnail"} src={`https://img.youtube.com/vi/${item.resourceId}/0.jpg`} alt={"로딩중.."}/>
+                        {item.title.length > 60 ? item.title.substring(0, 60) + "..." : item.title}
                     </button>
                 })
             }
@@ -93,6 +90,5 @@ function Player({login}: { login: boolean }) {
                             playingState={[state, setState]}/>}
     </div>
 }
-
 
 export default Player;

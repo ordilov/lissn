@@ -5,7 +5,6 @@ async function randomPlaylist(){
         url: "/playlists/random",
         method: "GET",
     });
-
     console.log(response);
     return response;
 }
