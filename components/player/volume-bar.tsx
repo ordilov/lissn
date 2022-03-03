@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faVolumeMute, faVolumeUp} from "@fortawesome/free-solid-svg-icons";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
-import {BaseSyntheticEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
+import {BaseSyntheticEvent, CSSProperties, Dispatch, SetStateAction, useEffect, useState} from "react";
 import {YouTubePlayer} from "youtube-player/dist/types";
 
 function VolumeBar({target}: { target: YouTubePlayer }) {
@@ -21,6 +21,12 @@ function VolumeBar({target}: { target: YouTubePlayer }) {
             }
             </button>
             <input type="range" id="volume" name="volume" value={volume}
+                   className={"styled-slider slider-progress"}
+                   style={{
+                       "--value": `${Math.floor(volume)}`,
+                       "--max": `${100}`,
+                       "--min": "0"
+                   } as CSSProperties}
                    onInput={(e: BaseSyntheticEvent) => changeVolume(Number(e.target.value), setVolume, target)}
                    min="0" step="10" max="100"/>
         </div>

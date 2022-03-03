@@ -1,4 +1,4 @@
-import {ACCESS_TOKEN} from "../libs/constants";
+import {ACCESS_TOKEN, REFRESH_TOKEN} from "../libs/constants";
 
 export const request = (options: any) => {
     const headers = new Headers({
@@ -9,7 +9,7 @@ export const request = (options: any) => {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
 
-    const defaults = {headers: headers};
+    const defaults = {headers};
     options = Object.assign({}, defaults, options);
 
     const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${options.url}`;
@@ -20,6 +20,15 @@ export const request = (options: any) => {
                     return Promise.reject(json);
                 }
                 return json.data;
+            }).catch(err => {
+                if (err.errorCode === "EXPIRED_TOKEN") {
+                    localStorage.removeItem(ACCESS_TOKEN);
+                    if (!localStorage.getItem(REFRESH_TOKEN)) return
+                    const refreshToken = localStorage.getItem(REFRESH_TOKEN) as string
+                    refreshRequest(refreshToken)
+                    window.location.href = response.url
+                }
+                return Promise.reject(err);
             })
         );
 };
@@ -30,6 +39,25 @@ const memberRequest = (options: any) => {
     }
     return request(options);
 };
+
+async function refreshRequest(refreshToken: string) {
+    if (localStorage.getItem(ACCESS_TOKEN)) {
+        console.log("Access token already set.");
+    }
+    return request({
+        url: '/auth/refresh',
+        method: 'POST',
+        body: JSON.stringify({refreshToken})
+    }).then(res => {
+        console.log(res);
+        localStorage.setItem(ACCESS_TOKEN, res.accessToken);
+        localStorage.setItem(REFRESH_TOKEN, res.refreshToken);
+    }).catch(err => {
+        console.log(err)
+        localStorage.removeItem(REFRESH_TOKEN);
+        return Promise.reject(err);
+    })
+}
 
 export async function getCurrentUser() {
     return memberRequest({

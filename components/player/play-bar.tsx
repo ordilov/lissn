@@ -49,6 +49,7 @@ function PlayBar(
 
     return (
         <div className={"play-bar"}>
+
             <div className={"d-flex justify-content-between align-items-center"}>
                 <strong className={"text-center playing-title"}>
                     {title}
@@ -137,7 +138,7 @@ function playTrack(index: number, setIndex: Dispatch<SetStateAction<number>>, ta
                    setPlaying: Dispatch<SetStateAction<number>>) {
     setIndex(index);
     setPlaying(1);
-    playVideo(target, setPlaying, index);
+    target.playVideoAt(index);
 }
 
 function playVideo(target: YouTubePlayer, setPlaying: Dispatch<SetStateAction<number>>, index: number) {

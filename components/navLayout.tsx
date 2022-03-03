@@ -30,17 +30,19 @@ function NavLayout({
 
     return <>
         <nav className="navbar navbar-expand-sm">
-            <a className="menu-button navbar-brand" href="./">
+            <a className="menu-button navbar-brand navbar-icon" href="./">
                 <div><FontAwesomeIcon icon={faHeadphones as IconProp} size={"1x"}/> 리슨</div>
             </a>
-            <a className="navbar-brand" href="/search"><FontAwesomeIcon icon={faSearch as IconProp} size={"1x"}/> 검색</a>
+            <a className="navbar-brand navbar-icon" href="/search">
+                <FontAwesomeIcon icon={faSearch as IconProp} size={"1x"}/> 검색
+            </a>
 
             <ul className="navbar-nav ms-auto">
                 {member ?
                     <>
                         <li className="nav-item">
                             <Dropdown>
-                                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                <Dropdown.Toggle variant="secondary" id="nav-settings-toggle" className={"navbar-icon"}>
                                     <FontAwesomeIcon icon={faCog as IconProp}/> 설정
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
@@ -48,34 +50,26 @@ function NavLayout({
                                 </Dropdown.Menu>
                             </Dropdown>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#" onClick={logout}>
-                                <FontAwesomeIcon icon={faUser as IconProp}/> {member?.name}님
-                                {/*<img src={currentUser?.profileImageUrl} alt={""}/>*/}
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="./" onClick={logout}>
-                                <FontAwesomeIcon icon={faSignOutAlt as IconProp} size={"1x"}/> 로그아웃
-                            </a>
-                        </li>
+                        <a className="navbar-icon" href="#" onClick={() => {
+                        }}>
+                            <FontAwesomeIcon icon={faUser as IconProp}/> {member?.name}님
+                            {/*<img src={currentUser?.profileImageUrl} alt={""}/>*/}
+                        </a>
+                        <a className="navbar-icon" href="./" onClick={logout}>
+                            <FontAwesomeIcon icon={faSignOutAlt as IconProp} size={"1x"}/> 로그아웃
+                        </a>
 
-                        <li className="nav-item">
-                            <Link href="/playlists">
-                                <a className="nav-link" href="#" onClick={getMemberPlaylists}>
-                                    <FontAwesomeIcon icon={faMusic as IconProp} size={"1x"}/> 플레이리스트
-                                </a>
-                            </Link>
-                        </li>
-
+                        <Link href="/playlists">
+                            <a className="navbar-icon" href="#" onClick={getMemberPlaylists}>
+                                <FontAwesomeIcon icon={faMusic as IconProp} size={"1x"}/> 플레이리스트
+                            </a>
+                        </Link>
                     </>
                     :
                     <>
-                        <li className="nav-item">
-                            <a className="nav-link" href={GOOGLE_AUTH_URL}>
-                                <FontAwesomeIcon icon={faGoogle as IconProp} size={"1x"}/> 로그인
-                            </a>
-                        </li>
+                        <a className="navbar-icon" href={GOOGLE_AUTH_URL}>
+                            <FontAwesomeIcon icon={faGoogle as IconProp} size={"1x"}/> 로그인
+                        </a>
                     </>
                 }
             </ul>

@@ -1,163 +1,167 @@
 html,
 body {
-    width: 100%;
-    min-height: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .title {
-    background: #000000;
-    color: #333333;;
-    text-align: center;
+  background: #000000;
+  color: #333333;;
+  text-align: center;
 }
 
 .icon {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
 #__next {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 main {
-    padding: 10px;
-    width: 100%;
-    min-height: 100%;
-    background: rgb(238,174,202);
-    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+  padding: 10px;
+  width: 100%;
+  min-width: 600px;
+  position: relative;
+  min-height: 100%;
+  background: rgb(238, 174, 202);
+  background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
 }
 
 .container-fluid {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 
-    margin: 10px;
+  margin: 10px;
 }
 
 .form-control {
-    width: 500px;
+  width: 500px;
 }
 
 .playlistItem-title {
-    width: 310px;
+  width: 310px;
 }
 
 .playing-title {
-    color: #ffffff;
-    font-family: 'Raleway', sans-serif;
-    font-size: 10pt;
-    text-align: center;;
-    display: inline;
+  color: #ffffff;
+  font-family: 'Raleway', sans-serif;
+  font-size: 10pt;
+  text-align: center;;
+  display: inline;
 }
 
 
-.space{
-    height: 100px;
+.space {
+  height: 110px;
 }
 
-.play-button{
-    background: transparent;
-    border: none;
-    color: #ffffff;
-    margin: 5px;
+.play-button {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  margin: 5px;
 }
 
-.move-button{
-    width: 60px;
+.move-button {
+  width: 60px;
 }
 
-footer{
-    background: #3d413d;
+footer {
+  min-width: 600px;
+  background: #3d413d;
 }
 
-.menu-button{
-    padding: 0 0 10px 0;
-    margin: 0 10px;
+.menu-button {
+  padding: 0 0 10px 0;
+  margin: 0 10px;
 }
 
-.dropdown-item{
-    z-index: 1;
+.dropdown-item {
+  z-index: 1;
 }
 
-.thumbnail{
-    width: 50px;
-    height: 50px;
-    border-radius: 25%;
-    margin: 0 10px;
+.thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 25%;
+  margin: 0 10px;
 }
 
-.playlist-item{
-    width: 1080px;
-    background: transparent;
-    border-width: 0 0 1px 0
+.playlist-item {
+  width: 100%;
+  background: transparent;
+  border-width: 0 0 1px 0
 }
 
-.play-bar-list-delete{
-    background: transparent;
-    border : 0;
-    /*width: 30px;*/
+.play-bar-list-delete {
+  background: transparent;
+  border: 0;
+  /*width: 30px;*/
 }
 
-#play-bar-list-toggle{
-    background-color: transparent;
-    border-color: transparent;
+#play-bar-list-toggle {
+  background-color: transparent;
+  border-color: transparent;
 }
 
 
 .wrap-video {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 */
-    padding-top: 25px;
-    height: 0;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 25px;
+  height: 0;
 }
 
 
 $normal-player-width: 60%;
 .normal-mode {
-    position: relative;
-    width: $normal-player-width;
-    left: (100% - $normal-player-width)/2;
-    height: 0;
-    padding-bottom: $normal-player-width * (9 / 16);
-    //height: 40%;
-    iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
+  position: relative;
+  width: $normal-player-width;
+  left: (100% - $normal-player-width)/2;
+  height: 0;
+  padding-bottom: $normal-player-width * (9 / 16);
+  //height: 40%;
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 $theater-player-width: 80%;
-.theater-mode{
-    position: relative;
-    width: $theater-player-width;
-    left: (100% - $theater-player-width)/2;
-    height: 0;
-    padding-bottom: $theater-player-width * (9 / 16);
-    iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
+.theater-mode {
+  position: relative;
+  width: $theater-player-width;
+  left: (100% - $theater-player-width)/2;
+  height: 0;
+  padding-bottom: $theater-player-width * (9 / 16);
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 

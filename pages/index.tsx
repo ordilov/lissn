@@ -19,7 +19,7 @@ const Home: NextPage = () => {
         getCurrentUser().then((member: Member) => {
             setMember(member);
             setLogin(true);
-        })
+        });
     }, [])
 
     return (

@@ -1,4 +1,5 @@
 export const ACCESS_TOKEN = 'accessToken';
+export const REFRESH_TOKEN = 'refreshToken';
 
 export const YOUTUBE_AUTH = 'https://www.googleapis.com/auth/youtube';
 export const YOUTUBE_AUTH_READ = 'https://www.googleapis.com/auth/youtube.readonly';

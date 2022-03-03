@@ -1,0 +1,69 @@
+$slider-color: #777;
+$slider-color-hover: #999;
+$slider-color-active: #aaa;
+
+input[type=range].styled-slider {
+  height: 1em;
+  background: transparent;
+  -webkit-appearance: none;
+}
+
+/*progress support*/
+input[type=range].styled-slider.slider-progress {
+  --range: calc(var(--max) - var(--min));
+  --ratio: calc((var(--value) - var(--min)) / var(--range));
+  --sx: calc(0.5 * 2em + var(--ratio) * (100% - 2em));
+}
+
+input[type=range].styled-slider:focus {
+  outline: none;
+}
+
+/*webkit*/
+input[type=range].styled-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1em;
+  height: 1em;
+  border-radius: 1em;
+  background: $slider-color;
+  border: none;
+  box-shadow: 0 0 2px black;
+  margin-top: -0.2em;
+}
+
+input[type=range].styled-slider::-webkit-slider-runnable-track {
+  height: 0.6em;
+  border-radius: 0.5em;
+  background: transparent;
+  box-shadow: none;
+}
+
+input[type=range].styled-slider::-webkit-slider-thumb:hover {
+  background: $slider-color-hover;
+}
+
+input[type=range].styled-slider:hover::-webkit-slider-runnable-track {
+  background: #2d2828;
+  border-color: #9a9a9a;
+}
+
+input[type=range].styled-slider::-webkit-slider-thumb:active {
+  background: #838383;
+}
+
+input[type=range].styled-slider:active::-webkit-slider-runnable-track {
+  background: #3a3636;
+  border-color: #211f1f;
+}
+
+input[type=range].styled-slider.slider-progress::-webkit-slider-runnable-track {
+  background: linear-gradient($slider-color, $slider-color) 0/var(--sx) 100% no-repeat, #444;
+}
+
+input[type=range].styled-slider.slider-progress:hover::-webkit-slider-runnable-track {
+  background: linear-gradient($slider-color-hover, $slider-color-hover) 0/var(--sx) 100% no-repeat, #444;
+}
+
+input[type=range].styled-slider.slider-progress:active::-webkit-slider-runnable-track {
+  background: linear-gradient($slider-color-hover, $slider-color-hover) 0/var(--sx) 100% no-repeat, #444;
+}

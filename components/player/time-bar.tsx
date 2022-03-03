@@ -1,5 +1,5 @@
 import {YouTubePlayer} from "youtube-player/dist/types";
-import {BaseSyntheticEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
+import React, {BaseSyntheticEvent, CSSProperties, Dispatch, SetStateAction, useEffect, useState} from "react";
 
 function TimeBar({
                      target,
@@ -25,7 +25,6 @@ function TimeBar({
             clearInterval(check);
             return;
         }
-
         if (playing) {
             setCurrentTime(target.getCurrentTime());
             setDuration(target.getDuration());
@@ -36,21 +35,29 @@ function TimeBar({
         }
     }, [playing])
 
+    if (duration === 0) return null;
+
     return (
         <div className={"d-flex justify-content-center"}>
-            {(duration !== 0) && <span className={"time-text"}>
+            <span className={"time-text"}>
                 {`${Math.floor(currentTime / 60)}:${String(Math.floor(currentTime % 60)).padStart(2, '0')}`}
-            </span>}
-            <input type="range" id="time-bar" name="volume" value={currentTime}
+            </span>
+            <input className={"styled-slider slider-progress"} type="range" id="time-bar" name="volume"
+                   style={{
+                       "--value": `${Math.floor(currentTime)}`,
+                       "--max": `${Math.floor(duration)}`,
+                       "--min": "0"
+                   } as CSSProperties}
+                   value={currentTime}
                    onInput={(e: BaseSyntheticEvent) => {
                        const value = parseInt(e.target.value);
                        target.seekTo(value, true);
                        setCurrentTime(value);
                    }}
                    min="0" step="1" max={duration}/>
-            {(duration !== 0) && <span className={"time-text"}>
+            <span className={"time-text"}>
                 {`${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padEnd(2, '0')}`}
-            </span>}
+            </span>
         </div>
     )
 }

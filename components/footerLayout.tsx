@@ -10,10 +10,11 @@ function FooterLayout() {
     }
 
     return <footer>
-        <button data-bs-toggle="tooltip" data-bs-placement="top" title="ordilov@gmail.com">
+        <button className={"footer-icon"} data-bs-toggle="tooltip" data-bs-placement="top" title="ordilov@gmail.com">
             <FontAwesomeIcon icon={faEnvelope as IconProp}/> 메일
         </button>
-        <button onClick={redirectToGithub}><FontAwesomeIcon icon={faGithub as IconProp}/> 깃허브</button>
+        <button className={"footer-icon"} onClick={redirectToGithub}><FontAwesomeIcon icon={faGithub as IconProp}/> 깃허브
+        </button>
     </footer>
 }
 

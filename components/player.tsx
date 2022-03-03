@@ -9,7 +9,6 @@ import {YouTubePlayer} from "youtube-player/dist/types";
 import PlayBar from "./player/play-bar";
 import {Mode} from "./player/player-mode";
 
-
 function Player({login}: { login: boolean }) {
     const [index, setIndex] = useState(0);
     const [state, setState] = useState(-1);
