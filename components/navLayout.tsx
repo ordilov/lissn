@@ -29,11 +29,11 @@ function NavLayout({
     }
 
     return <>
-        <nav className="navbar navbar-expand-sm navbar-inverse bg-dark">
+        <nav className="navbar navbar-expand-sm">
             <a className="menu-button navbar-brand" href="./">
                 <div><FontAwesomeIcon icon={faHeadphones as IconProp} size={"1x"}/> 리슨</div>
             </a>
-            <a className="navbar-brand" href="#"><FontAwesomeIcon icon={faSearch as IconProp} size={"1x"}/> 검색</a>
+            <a className="navbar-brand" href="/search"><FontAwesomeIcon icon={faSearch as IconProp} size={"1x"}/> 검색</a>
 
             <ul className="navbar-nav ms-auto">
                 {member ?

@@ -8,6 +8,7 @@ import PlayBar from "./player/play-bar";
 import YouTube, {Options} from "react-youtube";
 import {YouTubePlayer} from "youtube-player/dist/types";
 import {PlayingType, PlaylistItem} from "../libs/types";
+import {Mode} from "./player/player-mode";
 
 function PlaylistLayout() {
     const [playlists, setPlaylists] = useState([]);
@@ -15,6 +16,7 @@ function PlaylistLayout() {
     const [target, setTarget] = useState<YouTubePlayer>();
     const [index, setIndex] = useState(0);
     const [state, setState] = useState(-1);
+    const [mode, setMode] = useState(Mode.NORMAL);
     const [playlistTitle, setPlaylistTitle] = useState("");
     const [playlistItems, setPlaylistItems] = useState<PlaylistItem[]>([]);
 
@@ -101,6 +103,8 @@ function PlaylistLayout() {
         </div>
 
         {target && <PlayBar target={target}
+                            readOnly={false}
+                            modeState={[mode, setMode]}
                             indexState={[index, setIndex]}
                             playingState={[state, setState]}
                             playlistItemsState={[playlistItems, setPlaylistItems]}/>}
