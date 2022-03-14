@@ -1,12 +1,11 @@
-import HeaderLayout from "../components/headerLayout";
-import FooterLayout from "../components/footerLayout";
+import Footer from "../components/footer";
 import React, {useEffect, useState} from "react";
-import NavLayout from "../components/navLayout";
+import Nav from "../components/nav";
 import {ACCESS_TOKEN} from "../libs/constants";
 import PlaylistLayout from "../components/playlistLayout";
-import {getCurrentUser} from "../api/server";
 import Space from "../components/space";
 import {Member} from "../libs/types";
+import {getCurrentUser} from "../api/member-api";
 
 function MyPlaylists() {
     const [member, setMember] = useState<Member>()
@@ -23,12 +22,11 @@ function MyPlaylists() {
 
     return (
         <>
-            <HeaderLayout/>
-            <NavLayout loginState={[login, setLogin]} memberState={[member, setMember]}/>
+            <Nav loginState={[login, setLogin]} memberState={[member, setMember]}/>
             <main>
                 <PlaylistLayout/>
             </main>
-            <FooterLayout/>
+            <Footer/>
             <Space/>
         </>
     )

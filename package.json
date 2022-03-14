@@ -1,5 +1,5 @@
 {
-  "name": "shuffle",
+  "name": "lissn",
   "private": true,
   "scripts": {
     "dev": "next dev",

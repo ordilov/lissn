@@ -1,10 +1,10 @@
-import HeaderLayout from "../components/headerLayout";
-import NavLayout from "../components/navLayout";
-import FooterLayout from "../components/footerLayout";
+import HeaderLayout from "../components/header";
+import Nav from "../components/nav";
+import Footer from "../components/footer";
 import React, {useEffect, useState} from "react";
 import {Member} from "../libs/types";
 import {ACCESS_TOKEN} from "../libs/constants";
-import {getCurrentUser} from "../api/server";
+import {getCurrentUser} from "../api/member-api";
 
 function Search() {
     const [member, setMember] = useState<Member>()
@@ -21,11 +21,10 @@ function Search() {
 
     return (
         <>
-            <HeaderLayout/>
-            <NavLayout loginState={[login, setLogin]} memberState={[member, setMember]}/>
+            <Nav loginState={[login, setLogin]} memberState={[member, setMember]}/>
             <main>
             </main>
-            <FooterLayout/>
+            <Footer/>
         </>
     )
 }

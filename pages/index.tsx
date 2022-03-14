@@ -1,13 +1,12 @@
 import type {NextPage} from 'next'
-import HeaderLayout from "../components/headerLayout";
-import FooterLayout from "../components/footerLayout";
+import Footer from "../components/footer";
 import Player from "../components/player";
 import React, {useEffect, useState} from "react";
-import NavLayout from "../components/navLayout";
+import Nav from "../components/nav";
 import {ACCESS_TOKEN} from "../libs/constants";
-import {getCurrentUser} from "../api/server";
 import Space from "../components/space";
 import {Member} from "../libs/types";
+import {getCurrentUser} from "../api/member-api";
 
 const Home: NextPage = () => {
     const [member, setMember] = useState<Member>();
@@ -24,13 +23,12 @@ const Home: NextPage = () => {
 
     return (
         <>
-            <HeaderLayout/>
-            <NavLayout loginState={[login, setLogin]}
-                       memberState={[member, setMember]}/>
+            <Nav loginState={[login, setLogin]}
+                 memberState={[member, setMember]}/>
             <main>
                 <Player login={login}/>
             </main>
-            <FooterLayout/>
+            <Footer/>
             <Space/>
         </>
     )

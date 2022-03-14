@@ -28,6 +28,7 @@ function PlaylistLayout() {
         })
 
         getPlayingApi().then((data: PlayingType) => {
+            if(!data) return;
             setPlaylistItems(data.items);
             const index = data.items.findIndex(item => item.id === data.nowPlaying);
             console.log(data.items, data.nowPlaying)

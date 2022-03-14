@@ -1,6 +1,7 @@
 import {ACCESS_TOKEN, REFRESH_TOKEN} from "../libs/constants";
+import {memberRequest} from "./member-api";
 
-export const request = (options: any) => {
+export const request = async (options: any) => {
     const headers = new Headers({
         'Content-Type': 'application/json',
     })
@@ -13,37 +14,26 @@ export const request = (options: any) => {
     options = Object.assign({}, defaults, options);
 
     const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${options.url}`;
-    return fetch(url, options)
-        .then(response =>
-            response.json().then(json => {
-                if (!response.ok) {
-                    return Promise.reject(json);
-                }
-                return json.data;
-            }).catch(err => {
-                if (err.errorCode === "EXPIRED_TOKEN") {
-                    localStorage.removeItem(ACCESS_TOKEN);
-                    if (!localStorage.getItem(REFRESH_TOKEN)) return
-                    const refreshToken = localStorage.getItem(REFRESH_TOKEN) as string
-                    refreshRequest(refreshToken)
-                    window.location.href = response.url
-                }
-                return Promise.reject(err);
-            })
-        );
-};
 
-const memberRequest = (options: any) => {
-    if (!localStorage.getItem(ACCESS_TOKEN)) {
-        return Promise.reject("No access token set.");
+    let response = await fetch(url, options);
+
+    const json = await response.json();
+    if (json.result === 'FAIL' && json.errorCode === 'EXPIRED_TOKEN') {
+        localStorage.removeItem(ACCESS_TOKEN);
+        if (!localStorage.getItem(REFRESH_TOKEN))
+            window.location.href = '/';
+        const refreshToken = localStorage.getItem(REFRESH_TOKEN) as string
+        const response = await refreshRequest(refreshToken);
     }
-    return request(options);
+    return json.data;
 };
 
 async function refreshRequest(refreshToken: string) {
     if (localStorage.getItem(ACCESS_TOKEN)) {
         console.log("Access token already set.");
     }
+    console.log("Refreshing token...");
+
     return request({
         url: '/auth/refresh',
         method: 'POST',
@@ -56,13 +46,6 @@ async function refreshRequest(refreshToken: string) {
         console.log(err)
         localStorage.removeItem(REFRESH_TOKEN);
         return Promise.reject(err);
-    })
-}
-
-export async function getCurrentUser() {
-    return memberRequest({
-        url: `/members/me`,
-        method: 'GET',
     })
 }
 
@@ -160,10 +143,11 @@ export async function changePlayingApi(playlistId: number, playlistItemId: numbe
 }
 
 export async function getPlayingApi() {
-    return memberRequest({
+    const data = await memberRequest({
         url: `/playing`,
         method: 'GET'
     });
+    return data;
 }
 
 export async function deletePlayingApi(playingId: number) {

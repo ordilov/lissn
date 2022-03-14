@@ -1,0 +1,48 @@
+.container{
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  justify-content: center;
+}
+
+.ProfileContainer{
+  display: flex;
+  justify-content: center;
+  margin-right: auto;
+  margin-left: auto;
+  width: 30%;
+
+}
+
+.ProfileImageCropper{
+  width: 15rem;
+  height: 15rem;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.ProfileImage{
+  width: 15rem;
+  height: auto;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.ProfileImageButton{
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  :hover{
+    visibility: visible;
+  }
+}

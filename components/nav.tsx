@@ -7,8 +7,9 @@ import {ACCESS_TOKEN, GOOGLE_AUTH_URL} from "../libs/constants";
 import Link from "next/link";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {Dropdown} from "react-bootstrap";
+import styles from "../public/styles/Nav.module.scss";
 
-function NavLayout({
+function Nav({
                        loginState: [login, setLogin],
                        memberState: [member, setMember],
                    }: {
@@ -45,16 +46,23 @@ function NavLayout({
                                 <Dropdown.Toggle variant="secondary" id="nav-settings-toggle" className={"navbar-icon"}>
                                     <FontAwesomeIcon icon={faCog as IconProp}/> 설정
                                 </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                <Dropdown.Menu className={styles.DropdownMenu}>
+                                    <Dropdown.Item className={styles.dropdown} href="/profile">Action</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </li>
-                        <a className="navbar-icon" href="#" onClick={() => {
-                        }}>
-                            <FontAwesomeIcon icon={faUser as IconProp}/> {member?.name}님
+
+                            <Dropdown>
+                                <Dropdown.Toggle variant="secondary" id="nav-settings-toggle" className={"navbar-icon"}>
+                                    <FontAwesomeIcon icon={faUser as IconProp}/> {member?.name}님
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu className={styles.DropdownMenu}>
+                                    <Dropdown.Item href="/profile">프로필 변경</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                             {/*<img src={currentUser?.profileImageUrl} alt={""}/>*/}
-                        </a>
+
+
                         <a className="navbar-icon" href="./" onClick={logout}>
                             <FontAwesomeIcon icon={faSignOutAlt as IconProp} size={"1x"}/> 로그아웃
                         </a>
@@ -90,4 +98,4 @@ async function getMemberPlaylists() {
     console.log(data);
 }
 
-export default NavLayout;
+export default Nav;

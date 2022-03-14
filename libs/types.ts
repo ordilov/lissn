@@ -22,7 +22,11 @@ export interface Member {
     id: number;
     name: string;
     email: string;
+    picture: string;
     provider: string;
     refreshToken: string;
-    profileImageUrl: string;
+}
+
+export enum ErrorCode {
+    EXPIRED_TOKEN = 'EXPIRED_TOKEN'
 }

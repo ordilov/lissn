@@ -9,6 +9,7 @@ import {fas} from '@fortawesome/free-solid-svg-icons'
 import {fab} from "@fortawesome/free-brands-svg-icons";
 import {far} from "@fortawesome/free-regular-svg-icons";
 import {config, IconPack, library} from '@fortawesome/fontawesome-svg-core'
+import Header from "../components/header";
 
 config.autoAddCss = false
 
@@ -20,7 +21,14 @@ function MyApp({Component, pageProps}: AppProps) {
         library.add(fas as IconPack);
         library.add(fab as IconPack);
     }, []);
-    return <Component {...pageProps} />
+
+
+    return (
+        <>
+            <Header/>
+            <Component {...pageProps} />
+        </>
+    )
 }
 
 export default MyApp

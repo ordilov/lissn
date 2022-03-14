@@ -3,7 +3,7 @@ import {faEnvelope} from "@fortawesome/free-solid-svg-icons";
 import {faGithub} from "@fortawesome/free-brands-svg-icons";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
-function FooterLayout() {
+function Footer() {
 
     function redirectToGithub() {
         window.open("https://github.com/ordilov/shuffle-practice");
@@ -18,4 +18,4 @@ function FooterLayout() {
     </footer>
 }
 
-export default FooterLayout
+export default Footer
