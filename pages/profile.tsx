@@ -3,7 +3,7 @@ import Footer from "../components/footer";
 import React, {useEffect, useState} from "react";
 import {Member} from "../libs/types";
 import {ACCESS_TOKEN} from "../libs/constants";
-import {getCurrentUser, updateProfile} from "../api/member-api";
+import {getCurrentUser, updateNameApi, updatePictureApi} from "../api/member-api";
 import styles from '../public/styles/Profile.module.scss';
 
 function Profile() {
@@ -16,7 +16,6 @@ function Profile() {
     useEffect(() => {
         let token = localStorage.getItem(ACCESS_TOKEN);
         if (!token) return
-        console.log(token);
         getCurrentUser().then(member => {
             setMember(member);
             setName(member.name);
@@ -25,15 +24,19 @@ function Profile() {
         });
     }, [])
 
-    async function updateName(name: string) {
-        await updateProfile(name, picture);
+    async function updateName(memberId: number, name: string) {
+        await updateNameApi(memberId, name);
         setMember(await getCurrentUser());
     }
 
-    async function updatePicture(picture: string) {
-        await updateProfile(name, picture);
+    async function updatePicture(memberId: number, picture: File) {
+        const formData = new FormData();
+        formData.append("data", picture);
+        await updatePictureApi(memberId, formData);
         setMember(await getCurrentUser());
     }
+
+    if (!member) return <div>Loading...</div>
 
     return (
         <>
@@ -41,21 +44,40 @@ function Profile() {
             <main className={styles.container}>
                 <div className={styles.ProfileContainer}
                      onMouseOver={() => setOnPicture(true)}
-                     onMouseLeave={() => {setOnPicture(false)}}>
+                     onMouseLeave={() => {
+                         setOnPicture(false)
+                     }}>
                     <div className={styles.ProfileImageCropper}>
                         <img className={styles.ProfileImage}
                              src={member?.picture} alt="프로필"/>
                     </div>
                     {onPicture &&
-                        <button className={styles.ProfileImageButton}
-                        onClick={() => updatePicture(picture)}>
-                            프로필 편집
-                        </button>}
+                        <>
+                            <label
+                                className={styles.ProfileImageButton}
+                                htmlFor={'files'}> 사진 변경 </label>
+                            <input type={'file'}
+                                   className={styles.ProfileImageButton}
+                                   id={'files'}
+                                   onChange={(e) => updatePicture(member.id, e.target.files!![0])}
+                            />
+                        </>
+                    }
                 </div>
-                <h2>{name}</h2>
-                <input type={'text'} onChange={(e) => setName(e.target.value)} placeholder={'닉네임'} minLength={2}
-                       maxLength={10}/>
-                <button onClick={() => updateName(name)}>수정</button>
+
+                <div className={styles.ProfileNameContainer}>
+                    <input type={'text'}
+                           className={styles.ProfileNameInput}
+                           onChange={(e) => setName(e.target.value)}
+                           defaultValue={name}
+                           placeholder={"이름을 입력해주세요."}
+                           minLength={2}
+                           maxLength={10}/>
+                    <button onClick={() => updateName(member.id, name)}
+                            className={styles.ProfileNameButton}>
+                        변경
+                    </button>
+                </div>
             </main>
             <Footer/>
         </>

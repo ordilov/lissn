@@ -15,14 +15,20 @@ export async function getCurrentUser() {
     });
 }
 
-export async function updateProfile(name: string, picture: string) {
-    console.log(name, picture);
+export async function updateNameApi(memberId: number, name: string) {
     return memberRequest({
-        url: "/members",
+        url: `/members/${memberId}/name?name=${name}`,
         method: "PATCH",
-        body: JSON.stringify({
-            name,
-            picture
-        })
+    });
+}
+
+export async function updatePictureApi(memberId: number, picture: FormData) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'none');
+    return memberRequest({
+        url: `/members/${memberId}/picture`,
+        method: "PATCH",
+        headers,
+        body: picture
     });
 }

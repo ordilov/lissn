@@ -2,30 +2,36 @@ import {ACCESS_TOKEN, REFRESH_TOKEN} from "../libs/constants";
 import {memberRequest} from "./member-api";
 
 export const request = async (options: any) => {
-    const headers = new Headers({
-        'Content-Type': 'application/json',
-    })
-
-    if (localStorage.getItem(ACCESS_TOKEN)) {
-        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+    if(!options.headers) {
+        options.headers = new Headers();
     }
 
-    const defaults = {headers};
-    options = Object.assign({}, defaults, options);
+    if(!options.headers.get('Content-Type')) {
+        options.headers.append('Content-Type', 'application/json');
+    }
+
+    if(options.headers.get('Content-Type') === 'none') {
+        options.headers.delete('Content-Type');
+    }
+
+    if (localStorage.getItem(ACCESS_TOKEN)) {
+        options.headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+    }
 
     const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${options.url}`;
 
     let response = await fetch(url, options);
 
     const json = await response.json();
-    if (json.result === 'FAIL' && json.errorCode === 'EXPIRED_TOKEN') {
+    if (json.result === 'SUCCESS') return json.data;
+
+    if (json.errorCode === 'EXPIRED_TOKEN') {
         localStorage.removeItem(ACCESS_TOKEN);
         if (!localStorage.getItem(REFRESH_TOKEN))
             window.location.href = '/';
         const refreshToken = localStorage.getItem(REFRESH_TOKEN) as string
         const response = await refreshRequest(refreshToken);
     }
-    return json.data;
 };
 
 async function refreshRequest(refreshToken: string) {

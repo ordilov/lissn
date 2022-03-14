@@ -1,3 +1,5 @@
+@import "variables";
+
 .container{
   display: block;
   margin: 0 auto;
@@ -11,7 +13,7 @@
   margin-right: auto;
   margin-left: auto;
   width: 30%;
-
+margin-bottom: 20px;
 }
 
 .ProfileImageCropper{
@@ -45,4 +47,38 @@
   :hover{
     visibility: visible;
   }
+}
+
+.ProfileNameContainer{
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  justify-content: center;
+
+}
+
+.ProfileNameInput{
+  background-color: transparent;
+  border: none;
+  font-size: 32pt;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  color: #fff;
+
+}
+
+.ProfileNameInput::placeholder{
+  color: #fff;
+}
+
+.ProfileNameInput:focus{
+  outline: solid;
+}
+
+.ProfileNameButton{
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  background-color: $dark-blue;
 }
