@@ -55,7 +55,7 @@ function Profile() {
                         <>
                             <label
                                 className={styles.ProfileImageButton}
-                                htmlFor={'files'}> 사진 변경 </label>
+                                htmlFor={'files'}>프로필 변경</label>
                             <input type={'file'}
                                    className={styles.ProfileImageButton}
                                    id={'files'}

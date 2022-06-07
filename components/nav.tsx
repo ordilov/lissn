@@ -4,15 +4,12 @@ import {faCog, faHeadphones, faMusic, faSearch, faSignOutAlt, faUser} from "@for
 import {faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {toast} from "react-toastify";
 import {ACCESS_TOKEN, GOOGLE_AUTH_URL} from "../libs/constants";
-import Link from "next/link";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
-import {Dropdown} from "react-bootstrap";
-import styles from "../public/styles/Nav.module.scss";
 
 function Nav({
-                       loginState: [login, setLogin],
-                       memberState: [member, setMember],
-                   }: {
+                 loginState: [login, setLogin],
+                 memberState: [member, setMember],
+             }: {
     memberState: [any, any], loginState: [boolean, Dispatch<SetStateAction<boolean>>]
 }) {
 
@@ -41,37 +38,21 @@ function Nav({
             <ul className="navbar-nav ms-auto">
                 {member ?
                     <>
-                        <li className="nav-item">
-                            <Dropdown>
-                                <Dropdown.Toggle variant="secondary" id="nav-settings-toggle" className={"navbar-icon"}>
-                                    <FontAwesomeIcon icon={faCog as IconProp}/> 설정
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu className={styles.DropdownMenu}>
-                                    <Dropdown.Item className={styles.dropdown} href="/profile">Action</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </li>
+                        <a className="navbar-icon">
+                            <FontAwesomeIcon icon={faCog as IconProp}/> 설정
+                        </a>
 
-                            <Dropdown>
-                                <Dropdown.Toggle variant="secondary" id="nav-settings-toggle" className={"navbar-icon"}>
-                                    <FontAwesomeIcon icon={faUser as IconProp}/> {member?.name}님
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu className={styles.DropdownMenu}>
-                                    <Dropdown.Item href="/profile">프로필 변경</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                            {/*<img src={currentUser?.profileImageUrl} alt={""}/>*/}
-
+                        <a className="navbar-icon" href="/profile">
+                            <FontAwesomeIcon icon={faUser as IconProp}/> {member?.name}님
+                        </a>
 
                         <a className="navbar-icon" href="./" onClick={logout}>
                             <FontAwesomeIcon icon={faSignOutAlt as IconProp} size={"1x"}/> 로그아웃
                         </a>
 
-                        <Link href="/playlists">
-                            <a className="navbar-icon" href="#" onClick={getMemberPlaylists}>
-                                <FontAwesomeIcon icon={faMusic as IconProp} size={"1x"}/> 플레이리스트
-                            </a>
-                        </Link>
+                        <a className="navbar-icon" href="/playlists" onClick={getMemberPlaylists}>
+                            <FontAwesomeIcon icon={faMusic as IconProp} size={"1x"}/> 플레이리스트
+                        </a>
                     </>
                     :
                     <>
@@ -82,6 +63,9 @@ function Nav({
                 }
             </ul>
         </nav>
+        <style jsx>{`
+
+        `}</style>
     </>
 }
 

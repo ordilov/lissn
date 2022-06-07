@@ -2,7 +2,7 @@ import Footer from "../components/footer";
 import React, {useEffect, useState} from "react";
 import Nav from "../components/nav";
 import {ACCESS_TOKEN} from "../libs/constants";
-import PlaylistLayout from "../components/playlistLayout";
+import PlaylistsLayout from "../components/playlistsLayout";
 import Space from "../components/space";
 import {Member} from "../libs/types";
 import {getCurrentUser} from "../api/member-api";
@@ -24,7 +24,7 @@ function MyPlaylists() {
         <>
             <Nav loginState={[login, setLogin]} memberState={[member, setMember]}/>
             <main>
-                <PlaylistLayout/>
+                <PlaylistsLayout/>
             </main>
             <Footer/>
             <Space/>

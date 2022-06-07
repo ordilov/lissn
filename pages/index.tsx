@@ -13,13 +13,16 @@ const Home: NextPage = () => {
     const [login, setLogin] = useState(false);
 
     useEffect(() => {
+        getUser();
+    }, [])
+
+    async function getUser(){
         let token = localStorage.getItem(ACCESS_TOKEN);
         if (!token) return
-        getCurrentUser().then((member: Member) => {
-            setMember(member);
-            setLogin(true);
-        });
-    }, [])
+        const member = await getCurrentUser();
+        setMember(member);
+        setLogin(true);
+    }
 
     return (
         <>

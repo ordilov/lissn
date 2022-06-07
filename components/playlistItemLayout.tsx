@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleXmark} from "@fortawesome/free-regular-svg-icons";
-import {deletePlaylistItemApi, getPlaylists, likeTrackApi} from "../api/server";
+import {deletePlaylistItemApi, getPlaylistsApi, likeTrackApi} from "../api/server";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 function PlaylistItemLayout({list, item}: { list: any, item: any }) {

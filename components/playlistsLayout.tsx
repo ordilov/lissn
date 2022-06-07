@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
-import {createPlaylistApi, getPlayingApi, getPlaylists} from "../api/server";
+import {createPlaylistApi, getPlayingApi, getPlaylistsApi} from "../api/server";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import Playlists from "./playlists";
 import PlayBar from "./player/play-bar";
 import YouTube, {Options} from "react-youtube";
 import {YouTubePlayer} from "youtube-player/dist/types";
-import {PlayingType, PlaylistItem} from "../libs/types";
+import {PlayingType, PlaylistItem, PlaylistType} from "../libs/types";
 import {Mode} from "./player/player-mode";
 
-function PlaylistLayout() {
-    const [playlists, setPlaylists] = useState([]);
+function PlaylistsLayout() {
+    const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
     const [editable, setEditable] = useState([] as boolean[]);
     const [target, setTarget] = useState<YouTubePlayer>();
     const [index, setIndex] = useState(0);
@@ -21,14 +21,10 @@ function PlaylistLayout() {
     const [playlistItems, setPlaylistItems] = useState<PlaylistItem[]>([]);
 
     useEffect(() => {
-        getPlaylists().then(data => {
-            setEditable(data.map(() => false));
-            setPlaylists(data)
-            return data;
-        })
+        getPlaylists();
 
         getPlayingApi().then((data: PlayingType) => {
-            if(!data) return;
+            if (!data) return;
             setPlaylistItems(data.items);
             const index = data.items.findIndex(item => item.id === data.nowPlaying);
             console.log(data.items, data.nowPlaying)
@@ -36,9 +32,16 @@ function PlaylistLayout() {
         });
     }, []);
 
+    const getPlaylists = async () => {
+        const playlists = await getPlaylistsApi();
+        setEditable(playlists.map(() => false));
+        setPlaylists(playlists);
+        return playlists;
+    };
+
     async function createPlaylist(title: string) {
         await createPlaylistApi(title);
-        setPlaylists(await getPlaylists());
+        await getPlaylists();
         setPlaylistTitle("");
         editable.push(true);
         setEditable(editable);
@@ -70,7 +73,7 @@ function PlaylistLayout() {
     }
 
     return <>
-        <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playlist-title-modal">
+        <button type="button" data-bs-toggle="modal" data-bs-target="#playlist-title-modal">
             <FontAwesomeIcon icon={faPlus as IconProp} size={"1x"}/> 플레이리스트 생성
         </button>
 
@@ -112,4 +115,5 @@ function PlaylistLayout() {
     </>
 }
 
-export default PlaylistLayout;
+
+export default PlaylistsLayout;

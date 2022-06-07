@@ -1,5 +1,6 @@
 import {ACCESS_TOKEN, REFRESH_TOKEN} from "../libs/constants";
 import {memberRequest} from "./member-api";
+import {PlaylistItem, PlaylistType} from "../libs/types";
 
 export const request = async (options: any) => {
     if(!options.headers) {
@@ -55,9 +56,16 @@ async function refreshRequest(refreshToken: string) {
     })
 }
 
-export async function getPlaylists() {
+export async function getPlaylistsApi(): Promise<PlaylistType[]> {
     return memberRequest({
         url: `/playlists`,
+        method: "GET"
+    });
+}
+
+export async function getPlaylistApi(id: number): Promise<PlaylistType[]> {
+    return request({
+        url: `/playlists/${id}`,
         method: "GET"
     });
 }
